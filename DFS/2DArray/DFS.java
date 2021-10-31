@@ -1,12 +1,12 @@
-import java.io.*;
-import java.math.*;
-import java.security.*;
-import java.text.*;
+// import java.io.*;
+// import java.math.*;
+// import java.security.*;
+// import java.text.*;
 import java.util.*;
-import java.util.concurrent.*;
-import java.util.function.*;
-import java.util.regex.*;
-import java.util.stream.*;
+// import java.util.concurrent.*;
+// import java.util.function.*;
+// import java.util.regex.*;
+// import java.util.stream.*;
 
 /*
     2D Array example:
@@ -116,15 +116,6 @@ public class DFS {
             return true;
         }
         return false;
-    }
-
-    /*
-        Helper method to modify coordinate pair [x,y] by i,j, respectively, to return [x+i, y+j]. 
-    */
-    private static int[] getNextCoordinate(int[] rowAndCol, int i, int j) {
-        rowAndCol[0] += i;
-        rowAndCol[1] += j;
-        return rowAndCol;
     }
 
     /*
