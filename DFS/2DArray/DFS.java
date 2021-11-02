@@ -37,7 +37,7 @@ public class DFS {
     private static final char[] cardinalDirections = { 'E', 'S', 'W', 'N'};
 
     /*
-        Global variables for solving maze
+        Global variables for solving maze.
     */
     private static int rows, cols;
     private static int[] start = new int[2];
@@ -194,6 +194,19 @@ public class DFS {
 
     public static void main(String[] args) {
         tryMaze("maze1.txt");
+        /*
+            Example output from above call:
+
+            Attempting to solve maze in: maze1.txt
+            Path: EENNNEEEEEESEESSSEEENNNNNN
+            x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, *, x
+            x,  ,  ,  ,  ,  , x, *, *, *, *, *, *, *, x, x, x, x, *, x
+            x,  , x, x, x, x, x, *, x, x, x, x, x, *, *, *, x, x, *, x
+            x,  , x, x, x, x, x, *, x, x, x, x, x, x, x, *, x, x, *, x
+            x,  , x, +, *, *, *, *, +, +, +, +, +, x, x, *, x, x, *, x
+            x,  , x, x, x, x, x, x, x, x, x, x, +, x, x, *, *, *, *, x
+            x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x
+        */
     }
 }
 
