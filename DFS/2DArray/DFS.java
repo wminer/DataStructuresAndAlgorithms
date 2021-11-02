@@ -1,4 +1,4 @@
-// import java.io.*;
+import java.io.*;
 // import java.math.*;
 // import java.security.*;
 // import java.text.*;
@@ -25,14 +25,24 @@ import java.util.*;
 */
 
 public class DFS {
+
     /*
         Const to store direction offsets to explore in 2D array maze.
     */
     private static final int[][] DIRECTIONS = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
+
     /*
         Const to store above direction offsets as char.
     */
     private static final char[] cardinalDirections = { 'E', 'S', 'W', 'N'};
+
+    /*
+        Global variables for solving maze
+    */
+    private static int rows, cols;
+    private static int[] start = new int[2];
+    private static int[] exit = new int[2];
+    private static char[][] maze = {{}};
 
     /*
         Helper method to solve maze given a starting point (as int[2]) and exit (as int[2]). 
@@ -97,7 +107,6 @@ public class DFS {
     /*
         Helper method to see if given cell is part of wall or at a dead end. 
         Infers if cell is at a dead end based off direction traveled to reach cell.
-
     */
     private static boolean CheckIfWallOrDeadEnd(char[][] maze, int row, int col, Character direction) {
         if(maze[row][col] == 'x') {
@@ -145,24 +154,46 @@ public class DFS {
             System.out.println();
         }
     }
+
+    /*
+        Helper method to take in maze as text file and attempt to solve it.
+    */
+    private static void tryMaze(String mazeFileName) {
+        try {
+            File mazeFile = new File(mazeFileName);
+            Scanner scanner = new Scanner(mazeFile);
+            while(scanner.hasNextLine()) {
+                cols = scanner.nextInt();
+                rows = scanner.nextInt();
+                maze = new char[rows][cols];
+                start[0] = scanner.nextInt();
+                start[1] = scanner.nextInt();
+                exit[0] = scanner.nextInt();
+                exit[1] = scanner.nextInt();
+                scanner.nextLine();
+                for(int row=0;row<rows;row++) {
+                    String mazeRow = scanner.nextLine();
+                    for(int col=0;col<cols;col++) {
+                        maze[row][col] = mazeRow.charAt((col));
+                    }
+                }
+            }
+            scanner.close();
+            
+            System.out.println("\nAttempting to solve maze in: " + mazeFileName);
+            Stack<Character> exitPath = solveMaze(maze, start, exit);
+            printPath(exitPath);
+            printMaze(maze);
+            System.out.println();  
+        } catch (FileNotFoundException e) {
+            System.out.println("FileNotFoundException occurred.");
+            e.printStackTrace();
+        }
+    }
     
 
-    public static void main(String[] args) {                
-        char[][] maze = {
-        //    0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17  18  19
-            {'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x',' ','x'}, // 0
-            {'x',' ',' ',' ',' ',' ','x',' ',' ',' ',' ',' ',' ',' ','x','x','x','x',' ','x'}, // 1
-            {'x',' ','x','x','x','x','x',' ','x','x','x','x','x',' ',' ',' ','x','x',' ','x'}, // 2
-            {'x',' ','x','x','x','x','x',' ','x','x','x','x','x','x','x',' ','x','x',' ','x'}, // 3
-            {'x',' ','x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x','x',' ','x','x',' ','x'}, // 4
-            {'x',' ','x','x','x','x','x','x','x','x','x','x',' ','x','x',' ',' ',' ',' ','x'}, // 5
-            {'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'}  // 6
-        };
-        int[] start = {4,4};
-        int[] exit = {0, 18};
-        Stack<Character> exitPath = solveMaze(maze, start, exit);
-        printPath(exitPath);
-        printMaze(maze);
+    public static void main(String[] args) {
+        tryMaze("maze1.txt");
     }
 }
 
