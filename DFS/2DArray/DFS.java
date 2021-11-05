@@ -140,7 +140,7 @@ public class DFS {
     }
 
     /*
-        Helper method to maze (stored as 2D Array) as String. 
+        Helper method to print maze (stored as 2D Array) as String. 
     */
     private static void printMaze(char[][] maze) {
         for(int i=0;i<maze.length;i++) {
@@ -207,6 +207,9 @@ public class DFS {
             x,  , x, x, x, x, x, x, x, x, x, x, +, x, x, *, *, *, *, x
             x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x
         */
+        tryMaze("maze2.txt");
+        tryMaze("maze3.txt");
+        tryMaze("maze4.txt");
     }
 }
 
