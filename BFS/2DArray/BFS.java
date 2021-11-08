@@ -32,8 +32,8 @@ public class BFS {
     */
     private static int nearestExit(char[][] maze, int[] entrance) {
         int row = start[0], col = start[1];
-        System.out.println("start is: " + Arrays.toString(start));
-        LinkedList<Coordinate> path = new LinkedList<Coordinate>();
+        System.out.println("Start is: " + Arrays.toString(start));
+        ArrayDeque<Coordinate> path = new ArrayDeque<Coordinate>();
         boolean [][] visited = new boolean[maze.length][maze[0].length];
         return BFSIterative(maze, visited, row, col, path);
     }
@@ -41,7 +41,7 @@ public class BFS {
     /*
         Iterative implementation of BFS with path backtracking included
     */
-    private static int BFSIterative(char[][] maze, boolean[][] visited, int row, int col, LinkedList<Coordinate> q) {
+    private static int BFSIterative(char[][] maze, boolean[][] visited, int row, int col, ArrayDeque<Coordinate> q) {
         visited[row][col] = true;
         q.add(new Coordinate(row, col, null, ""));
         int stepCount = 0;
@@ -77,9 +77,9 @@ public class BFS {
     /*
         Method to implement BFS recursively -- TO-DO
     */
-    // private static int BFSRecursive(char[][] maze, boolean[][] visited, int row, int col, Queue<Coordinate> path) {
-    //     return -1;
-    // }
+    private static int BFSRecursive(char[][] maze, boolean[][] visited, int row, int col, Queue<Coordinate> path) {
+        return -1;
+    }
 
     /*
         Helper method to check if given cell is a wall or dead end.
