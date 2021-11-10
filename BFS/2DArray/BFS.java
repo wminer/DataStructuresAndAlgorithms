@@ -30,18 +30,28 @@ public class BFS {
     /*
         Method in LeetCode #1926 to implement 
     */
-    private static int nearestExit(char[][] maze, int[] entrance) {
+    private static int nearestExitIterative(char[][] maze, int[] entrance) {
         int row = start[0], col = start[1];
-        System.out.println("Start is: " + Arrays.toString(start));
-        ArrayDeque<Coordinate> path = new ArrayDeque<Coordinate>();
+        System.out.println("Iterative Start is: " + Arrays.toString(start));
+        Queue<Coordinate> path = new ArrayDeque<Coordinate>();
         boolean [][] visited = new boolean[maze.length][maze[0].length];
         return BFSIterative(maze, visited, row, col, path);
+    }
+
+    private static int nearestExitRecursive(char[][] maze, int[] entrance) {
+        int row = start[0], col = start[1];
+        System.out.println("Recursive Start is: " + Arrays.toString(start));
+        Queue<Coordinate> path = new ArrayDeque<Coordinate>();
+        boolean [][] visited = new boolean[maze.length][maze[0].length];
+        path.add(new Coordinate(row, col, null, ""));
+        visited[row][col] = true;
+        return BFSRecursive(maze, visited, row, col, path);
     }
 
     /*
         Iterative implementation of BFS with path backtracking included
     */
-    private static int BFSIterative(char[][] maze, boolean[][] visited, int row, int col, ArrayDeque<Coordinate> q) {
+    private static int BFSIterative(char[][] maze, boolean[][] visited, int row, int col, Queue<Coordinate> q) {
         visited[row][col] = true;
         q.add(new Coordinate(row, col, null, ""));
         int stepCount = 0;
@@ -77,8 +87,39 @@ public class BFS {
     /*
         Method to implement BFS recursively -- TO-DO
     */
-    private static int BFSRecursive(char[][] maze, boolean[][] visited, int row, int col, Queue<Coordinate> path) {
-        return -1;
+    private static int BFSRecursive(char[][] maze, boolean[][] visited, int row, int col, Queue<Coordinate> q) {
+        if(q.isEmpty()) {
+            return -1;
+        }
+        int stepCount = 0;
+        String pathString;
+        int newRow, newCol;
+        Coordinate curr = q.remove();
+        for(int i=0;i<DIRECTIONS.length;i++) {
+            newRow = curr.row;
+            newCol = curr.col;
+            int[] directionPair = DIRECTIONS[i];
+            String directionChar = cardinalDirections[i] + "";
+            newRow += directionPair[0];
+            newCol += directionPair[1];
+            if(IsValid(newRow, newCol) && CheckIfExit(maze, newRow, newCol)) {
+                pathString = directionChar;
+                while(curr != null) {
+                    pathString = curr.directionTaken + pathString;
+                    stepCount++;
+                    curr = curr.parent;
+                }
+                System.out.println("Path taken was: " + pathString);
+                return stepCount;
+            }
+            if(IsValid(newRow, newCol) && !CheckIfWallOrDeadEnd(maze, newRow, newCol) && !visited[newRow][newCol]) {
+                visited[newRow][newCol] = true;
+                q.add(new Coordinate(newRow, newCol, curr, directionChar));
+                return BFSRecursive(maze, visited, newRow, newCol, q);
+            }
+        }
+        
+        return BFSRecursive(maze, visited, row, col, q);
     }
 
     /*
@@ -143,9 +184,12 @@ public class BFS {
             
             System.out.println("\nAttempting to solve maze in: " + mazeFileName);
             printMaze(maze);
-            int moveCount = nearestExit(maze, start);
-            System.out.println("Nearest exit is " + moveCount + " steps away");
+            int moveCount = nearestExitIterative(maze, start);
+            System.out.println("Nearest exit via iterative implementation is " + moveCount + " steps away");
             System.out.println(); 
+            moveCount = nearestExitRecursive(maze, start);
+            System.out.println("Nearest exit via recursive implementation is " + moveCount + " steps away");
+            System.out.println();
         } catch (FileNotFoundException e) {
                 System.out.println("FileNotFoundException occurred when trying to open" + mazeFileName + ".");
                 e.printStackTrace();
