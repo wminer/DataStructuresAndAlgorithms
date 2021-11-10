@@ -1,41 +1,6 @@
 public class ReverseLinkedList {
 
 	/*
-        Internal Class for Linked List Node
-    */
-	class Node {
-
-		int data;
-		Node next;
-
-		public Node() {}
-
-		public Node(int data, Node next) {
-		    this.data = data;
-			this.next = next;
-		}
-
-		public Node(Node next) {
-			this.next = next;
-		}
-	}
-
-	/*
-        Internal Class for Pointer Node for Head of Linked List
-        - same as Node but no data field, just Node reference  
-    */
-	class Pointer {
-
-		Node reference;
-
-		public Pointer() {}
-
-		public Pointer(Node reference) {
-			this.reference = reference;
-		}
-	}
-
-	/*
         Method to reverse Linked List
     */
 	private static Pointer reverseFunction(Pointer head) {
@@ -74,5 +39,40 @@ public class ReverseLinkedList {
 		head = reverseFunction(head);
 		System.out.println("Linked List post Reverse Function call: ");
 		PrintLinkedList(head);
+	}
+}
+
+/*
+	Class for Linked List Node
+*/
+class Node {
+
+	int data;
+	Node next;
+
+	public Node() {}
+
+	public Node(int data, Node next) {
+		this.data = data;
+		this.next = next;
+	}
+
+	public Node(Node next) {
+		this.next = next;
+	}
+}
+
+/*
+	Class for Pointer Node for Head of Linked List
+	- same as Node but no data field, just Node reference  
+*/
+class Pointer {
+
+	Node reference;
+
+	public Pointer() {}
+
+	public Pointer(Node reference) {
+		this.reference = reference;
 	}
 }
