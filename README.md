@@ -4,6 +4,10 @@ Repo to store Data Structure and Algorithm Implementations
 
 ## Update Log
 
+### 11/27/2021
+
+- Implemented & pushed Reverse String solution
+
 ### 11/9/2021
 
 - Pushed Reverse Linked List solution (brainstormed and implemented with @bykovav8)
