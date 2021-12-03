@@ -1,5 +1,6 @@
-package String.ReverseString;
-
+/*
+    File to implement reversing a string solution
+*/
 public class ReverseString {
 
     private static String StringReverse(String s) {
@@ -14,13 +15,13 @@ public class ReverseString {
      }
 
     public static void main(String[] args) {
-        String[] strings = {"fire", "water"};
+        String[] strings = {"fire", "water", "hogwarts", "a"};
         String currString, resultString;
         for(int i=0;i<strings.length;i++) {
             currString = strings[i];
             System.out.println("Input to StringReverse method: " + currString);
             resultString = StringReverse(currString);
-            System.out.println("Result from StringReverse method: " + resultString);
+            System.out.println("Result from StringReverse method: " + resultString + "\n");
         }
     }
 }
