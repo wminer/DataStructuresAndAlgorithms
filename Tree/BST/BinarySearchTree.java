@@ -39,10 +39,10 @@ public class BinarySearchTree {
 
     public void Delete(int val) {
         System.out.println("Deleting " + val + " from Tree.");
-        if(root == null) return;
-        TreeNode successor, successorParent;
+        if(root == null) return; // No values in tree to remove from
+        TreeNode successor, successorParent; // Pointers for value we're replacing deleted node with (successor) and its Parent node (successorParent)
         successorParent = new TreeNode();
-        // CASE 1: Val is root
+        // CASE 1: Val is root's vool --> deleting root Node
         if(root.val == val) {
             successor = root.right;
             while(successor != null && successor.left != null) {
@@ -50,42 +50,42 @@ public class BinarySearchTree {
                 successor = successor.left;
             }
             if(successor == null) { // No in-order successor
-                if(root.left == null) {
+                if(root.left == null) { // No predecessor nodes -- root is last val in tree
                     root = null;
                     return;
                 }
-                successor = root.left;
-                while(successor != null && successor.right != null) {
+                successor = root.left; // Predecessor exists, find largest value in left sub-tree
+                while(successor != null && successor.right != null) { // Traverse to largest value, which will become new root
                     successorParent = successor;
                     successor = successor.right;
                 }
-                successorParent.right = successor.left;
-                if(successor != root.left) {
+                successorParent.right = successor.left; // replace reference to new root (successor) with successor's left child (next largest value because we know no successor.right; if successor.left is null, that's ok)
+                if(successor != root.left) { // Need this check because of line 57; without it we may create a circular loop of references in the tree
                     successor.left = root.left;
                 }
             } else { // in-order successor exists
-                successor.left = root.left;
-                successorParent.left = successor.right;
-                if(successor != root.right) {
+                successor.left = root.left; // Update new root's reference
+                successorParent.left = successor.right; // Update reference to new root to next value (it's ok if it's null)
+                if(successor != root.right) { // Need this check because of line 47; without it we may create a circular loop of references in the tree
                     successor.right = root.right; 
                 }
             }
-            root = successor;
+            root = successor; // Update root reference
             return;
         }
         // CASE 2: Val is root's child
-        TreeNode parent = root;
-        TreeNode child = root.val > val ? root.left : root.right;
-        if(child == null) return;
-        if(child.val == val) {
-            if(parent.right == child) {
-                if(child.left == null && child.right == null) {
+        TreeNode parent = root; // Pointer for parent to Node to be deleted (parent)
+        TreeNode child = root.val > val ? root.left : root.right; // Pointer for Node to be deleted (child)
+        if(child == null) return; // Node with value to be deleted doesn't exist
+        if(child.val == val) { 
+            if(parent.right == child) { // Node to be deleted is the right child
+                if(child.left == null && child.right == null) { // No Nodes to replace node
                     parent.right = null;
                 } else if(child.left == null && child.right != null) {
                     parent.right = child.right;
                 } else if(child.left != null && child.right == null) {
                     parent.right = child.left;
-                } else { // child.left != null && child.right != null
+                } else { // child.left != null && child.right != null --> find in-order successor node
                     successor = child.right;
                     while(successor.left != null) {
                         successorParent = successor;
@@ -93,17 +93,19 @@ public class BinarySearchTree {
                     }
                     successorParent.left = successor.right;
                     successor.left = child.left;
-                    if(successor != child.right) successor.right = child.right;
+                    if(successor != child.right) { // Need this check because of line 89; without it we may create a circular loop of references in the tree
+                        successor.right = child.right;
+                    }
                     parent.right = successor;
                 }
-            } else if(parent.left == child) {
+            } else if(parent.left == child) { // Node to be deleted is the left child
                 if(child.left == null && child.right == null) {
                     parent.left = null;
                 } else if(child.left == null && child.right != null) {
                     parent.left = child.right;
                 } else if(child.left != null && child.right == null) {
                     parent.left = child.left;
-                } else { // child.left != null && child.right != null
+                } else { // child.left != null && child.right != null --> find in-order successor node
                     successor = child.right;
                     while(successor.left != null) {
                         successorParent = successor;
@@ -111,56 +113,56 @@ public class BinarySearchTree {
                     }
                     successorParent.left = successor.right;
                     successor.left = child.left;
-                    if(successor != child.right) successor.right = child.right;
+                    if(successor != child.right) { // Need this check because of line 109; without it we may create a circular loop of references in the tree
+                        successor.right = child.right;
+                    }
                     parent.left = successor;
                 }
             }
             return;
         }
         
-        // CASE 3: Val is not root and not root's child 
-        if(child != null) {
-            while(child != null && child.val != val) {
-                parent = child;
-                child = child.val > val ? child.left: child.right;
+        // CASE 3: Val is not root and not root's child
+        while(child != null && child.val != val) { // Search for node to be deleted 
+            parent = child;
+            child = child.val > val ? child.left: child.right;
+        }
+        if(child == null) return; // Node to be deleted doesn't exist
+        if(parent.right == child) {
+            if(child.left == null && child.right == null) {
+                parent.right = null;
+            } else if(child.left == null && child.right != null) {
+                parent.right = child.right;
+            } else if(child.left != null && child.right == null) {
+                parent.right = child.left;
+            } else { // child.left != null && child.right != null --> find in-order successor node
+                successor = child.right;
+                while(successor.left != null) {
+                    successorParent = successor;
+                    successor = successor.left;
+                }
+                successorParent.left = successor.right;
+                successor.left = child.left;
+                if(successor != child.right) successor.right = child.right;
+                parent.right = successor;
             }
-            if(child == null) return;
-            if(parent.right == child) {
-                if(child.left == null && child.right == null) {
-                    parent.right = null;
-                } else if(child.left == null && child.right != null) {
-                    parent.right = child.right;
-                } else if(child.left != null && child.right == null) {
-                    parent.right = child.left;
-                } else { // child.left != null && child.right != null
-                    successor = child.right;
-                    while(successor.left != null) {
-                        successorParent = successor;
-                        successor = successor.left;
-                    }
-                    successorParent.left = successor.right;
-                    successor.left = child.left;
-                    if(successor != child.right) successor.right = child.right;
-                    parent.right = successor;
+        } else if(parent.left == child) {
+            if(child.left == null && child.right == null) {
+                parent.left = null;
+            } else if(child.left == null && child.right != null) {
+                parent.left = child.right;
+            } else if(child.left != null && child.right == null) {
+                parent.left = child.left;
+            } else { // child.left != null && child.right != null --> find in-order successor node
+                successor = child.right;
+                while(successor.left != null) {
+                    successorParent = successor;
+                    successor = successor.left;
                 }
-            } else if(parent.left == child) {
-                if(child.left == null && child.right == null) {
-                    parent.left = null;
-                } else if(child.left == null && child.right != null) {
-                    parent.left = child.right;
-                } else if(child.left != null && child.right == null) {
-                    parent.left = child.left;
-                } else { // child.left != null && child.right != null
-                    successor = child.right;
-                    while(successor.left != null) {
-                        successorParent = successor;
-                        successor = successor.left;
-                    }
-                    successorParent.left = successor.right;
-                    successor.left = child.left;
-                    if(successor != child.right) successor.right = child.right;
-                    parent.left = successor;
-                }
+                successorParent.left = successor.right;
+                successor.left = child.left;
+                if(successor != child.right) successor.right = child.right;
+                parent.left = successor;
             }
         }
         return;
